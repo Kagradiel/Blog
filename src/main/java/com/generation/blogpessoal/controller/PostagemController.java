@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.generation.blogpessoal.dto.PostagemCreateDTO;
+import com.generation.blogpessoal.dto.PostagemUpdateDTO;
 import com.generation.blogpessoal.model.Postagem;
 
 import com.generation.blogpessoal.repository.PostagemRepository;
@@ -50,17 +52,29 @@ public class PostagemController {
 	}
 	
 	@PostMapping 
-	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
+	public ResponseEntity<Postagem> post(@Valid @RequestBody PostagemCreateDTO postagemCreateDTO){
+		
+		Postagem postagem = new Postagem();
+        postagem.setTitulo(postagemCreateDTO.getTitulo());
+        postagem.setTexto(postagemCreateDTO.getTexto());
+		
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(postagemRepository.save(postagem));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
-		return postagemRepository.findById(postagem.getId())
-				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-						.body(postagemRepository.save(postagem)))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	public ResponseEntity<Postagem> put(@Valid @RequestBody PostagemUpdateDTO postagemDTO) {
+	    return postagemRepository.findById(postagemDTO.getId())
+	            .map(postagem -> 
+	            {
+	            	
+	                postagem.setTitulo(postagemDTO.getTitulo());
+	                postagem.setTexto(postagemDTO.getTexto());
+	                
+	                return ResponseEntity.status(HttpStatus.OK)
+	                		.body(postagemRepository.save(postagem));
+	            })
+	            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
