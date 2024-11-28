@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,34 +25,39 @@ import com.generation.blogpessoal.model.Postagem;
 
 import com.generation.blogpessoal.repository.PostagemRepository;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/postagens")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "Postagens", description = "Operações relacionadas às postagens do blog")
 public class PostagemController {
 
 	@Autowired
 	private PostagemRepository postagemRepository;
 	
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Postagem>> getAll(){
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
-		
-	@GetMapping("/{id}")
+	
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Postagem> getById(@PathVariable Long id){
 		return postagemRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/titulo/{titulo}")
+	@GetMapping(value = "/titulo/{titulo}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){
 		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	
-	@PostMapping 
+	@PostMapping(
+	        consumes = MediaType.APPLICATION_JSON_VALUE,
+	        produces = MediaType.APPLICATION_JSON_VALUE
+	    ) 
 	public ResponseEntity<Postagem> post(@Valid @RequestBody PostagemCreateDTO postagemCreateDTO){
 		
 		Postagem postagem = new Postagem();
@@ -62,7 +68,10 @@ public class PostagemController {
 				.body(postagemRepository.save(postagem));
 	}
 	
-	@PutMapping
+	@PutMapping(
+	        consumes = MediaType.APPLICATION_JSON_VALUE,
+	        produces = MediaType.APPLICATION_JSON_VALUE
+	    ) 
 	public ResponseEntity<Postagem> put(@Valid @RequestBody PostagemUpdateDTO postagemDTO) {
 	    return postagemRepository.findById(postagemDTO.getId())
 	            .map(postagem -> 
