@@ -1,5 +1,7 @@
 package com.generation.blogpessoal.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +22,9 @@ public class PostagemUpdateDTO {
     @Size(min = 10, max = 1000, message = "O atributo texto deve conter no mínimo 10 e no máximo 1000 caracteres")
     @Schema(description = "Texto da postagem", example = "Este é um exemplo de texto para a postagem.")
     private String texto;
+    
+    @JsonIgnoreProperties("postagem")
+    private PostagemTemaDTO tema;
 
     // Getters e Setters
     public Long getId() {
@@ -45,4 +50,10 @@ public class PostagemUpdateDTO {
     public void setTexto(String texto) {
         this.texto = texto;
     }
+
+	public PostagemTemaDTO getTema() {
+		return tema;
+	}
+    
+    
 }

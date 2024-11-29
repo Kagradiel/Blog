@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
+@Hidden //evita que o springdoc analise essa classe para evitar imcompatibilidades
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

@@ -22,7 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.generation.blogpessoal.dto.PostagemCreateDTO;
 import com.generation.blogpessoal.dto.PostagemUpdateDTO;
 import com.generation.blogpessoal.model.Postagem;
-
+import com.generation.blogpessoal.model.Tema;
 import com.generation.blogpessoal.repository.PostagemRepository;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,6 +63,11 @@ public class PostagemController {
 		Postagem postagem = new Postagem();
         postagem.setTitulo(postagemCreateDTO.getTitulo());
         postagem.setTexto(postagemCreateDTO.getTexto());
+        
+        Tema tema = new Tema();
+        tema.setId(postagemCreateDTO.getTema().getId());
+        
+        postagem.setTema(tema);
 		
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(postagemRepository.save(postagem));
@@ -79,6 +84,11 @@ public class PostagemController {
 	            	
 	                postagem.setTitulo(postagemDTO.getTitulo());
 	                postagem.setTexto(postagemDTO.getTexto());
+	                
+	                Tema tema = new Tema();
+	                tema.setId(postagemDTO.getTema().getId());
+	                
+	                postagem.setTema(tema);
 	                
 	                return ResponseEntity.status(HttpStatus.OK)
 	                		.body(postagemRepository.save(postagem));

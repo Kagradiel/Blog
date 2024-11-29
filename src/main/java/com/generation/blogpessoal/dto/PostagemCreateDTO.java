@@ -1,5 +1,7 @@
 package com.generation.blogpessoal.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,6 +18,9 @@ public class PostagemCreateDTO {
     @Schema(description = "Texto da postagem", example = "Este é um exemplo de texto para a postagem.")
     private String texto;
 
+    @JsonIgnoreProperties("postagem")
+    private PostagemTemaDTO tema;
+    
 	public String getTitulo() {
 		return titulo;
 	}
@@ -32,5 +37,15 @@ public class PostagemCreateDTO {
 		this.texto = texto;
 	}
 
+	public PostagemTemaDTO getTema() {
+		return tema;
+	}
+
+	public void setTema(PostagemTemaDTO tema) {
+		this.tema = tema;
+	}
+
+	
+	
     
 }
