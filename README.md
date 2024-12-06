@@ -23,7 +23,7 @@ git clone https://github.com/Kagradiel/Blogpessoal.git
 
 Entre no diretório do projeto
 ```bash  
-cd Blogpessoal  
+cd Blog 
 ```
 
 Instale as dependências
