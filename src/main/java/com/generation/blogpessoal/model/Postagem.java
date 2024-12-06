@@ -22,7 +22,7 @@ public class Postagem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(description = "Id da postagem", example = "5")
+	@Schema(description = "Id da postagem", example = "1")
 	private long id;
 	
 	@NotBlank(message = "O atributo título é obrigatório")
@@ -41,6 +41,10 @@ public class Postagem {
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("usuario")
+	private Usuario usuario;
 
 	public long getId() {
 		return id;
@@ -82,6 +86,16 @@ public class Postagem {
 		this.tema = tema;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	
+	
 	
 
 }

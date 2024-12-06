@@ -66,7 +66,7 @@ public class PostagemController {
         
         Tema tema = new Tema();
         tema.setId(postagemCreateDTO.getTema().getId());
-        
+        	
         postagem.setTema(tema);
 		
 		return ResponseEntity.status(HttpStatus.CREATED)

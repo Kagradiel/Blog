@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErrorResponse> handleResponseStatusException(ResponseStatusException ex) {
+    	
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(ex.getStatusCode().value());
         errorResponse.setMessage(ex.getReason());

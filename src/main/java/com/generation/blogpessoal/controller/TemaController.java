@@ -74,7 +74,6 @@ public class TemaController {
 		return temaRepository.findById(temaUpdateDTO.getId())
 				.map(tema -> {
 					
-					tema.setId(temaUpdateDTO.getId());
 					tema.setDescricao(temaUpdateDTO.getDescricao());
 					
 					return ResponseEntity.status(HttpStatus.CREATED)
