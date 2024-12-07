@@ -39,9 +39,20 @@ mvn clean install
  3. Atualize as configurações do banco no arquivo application.properties:
 
  ```properties  
-spring.datasource.url=jdbc:mysql://localhost:3306/blogdb  
-spring.datasource.username=seu_usuario  
-spring.datasource.password=sua_senha   
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database=mysql
+spring.datasource.url=jdbc:mysql://localhost:3306/db_blogpessoal?createDatabaseIfNotExist=true&serverTimezone=America/Sao_Paulo&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=root
+
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone=Brazil/East
+
+spring.application.name=blogpessoal 
 ```
 
 ### Inicie o servidor
