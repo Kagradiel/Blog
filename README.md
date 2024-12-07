@@ -33,10 +33,8 @@ mvn clean install
 
 ### Configure o banco de dados
  1. Certifique-se de que o MySQL está em execução.
-
- 2. Crie um banco de dados chamado blogdb.
-
- 3. Atualize as configurações do banco no arquivo application.properties:
+    
+ 2. Atualize as configurações do banco no arquivo application.properties:
 
  ```properties  
 spring.jpa.hibernate.ddl-auto=update
