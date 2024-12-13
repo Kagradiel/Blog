@@ -23,6 +23,7 @@ import com.generation.blogpessoal.dto.PostagemCreateDTO;
 import com.generation.blogpessoal.dto.PostagemUpdateDTO;
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.model.Tema;
+import com.generation.blogpessoal.model.Usuario;
 import com.generation.blogpessoal.repository.PostagemRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -84,8 +85,12 @@ public class PostagemController {
         
         Tema tema = new Tema();
         tema.setId(postagemCreateDTO.getTema().getId());
+        
+        Usuario usuario = new Usuario();
+        usuario.setId(postagemCreateDTO.getUsuario().getId());
         	
         postagem.setTema(tema);
+        postagem.setUsuario(usuario);
 		
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(postagemRepository.save(postagem));
@@ -110,7 +115,11 @@ public class PostagemController {
 	                Tema tema = new Tema();
 	                tema.setId(postagemDTO.getTema().getId());
 	                
+	                Usuario usuario = new Usuario();
+	                usuario.setId(postagemDTO.getUsuario().getId());
+	                	
 	                postagem.setTema(tema);
+	                postagem.setUsuario(usuario);
 	                
 	                return ResponseEntity.status(HttpStatus.OK)
 	                		.body(postagemRepository.save(postagem));

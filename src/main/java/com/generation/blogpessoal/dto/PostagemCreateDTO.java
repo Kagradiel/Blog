@@ -21,6 +21,18 @@ public class PostagemCreateDTO {
     @JsonIgnoreProperties("postagem")
     private PostagemTemaDTO tema;
     
+    @JsonIgnoreProperties("postagem")
+    private PostagemUsuarioDTO usuario;
+    
+    
+	public PostagemUsuarioDTO getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(PostagemUsuarioDTO usuario) {
+		this.usuario = usuario;
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}

@@ -25,6 +25,9 @@ public class PostagemUpdateDTO {
     
     @JsonIgnoreProperties("postagem")
     private PostagemTemaDTO tema;
+    
+    @JsonIgnoreProperties("postagem")
+    private PostagemUsuarioDTO usuario;
 
     // Getters e Setters
     public Long getId() {
@@ -53,6 +56,10 @@ public class PostagemUpdateDTO {
 
 	public PostagemTemaDTO getTema() {
 		return tema;
+	}
+	
+	public PostagemUsuarioDTO getUsuario() {
+		return usuario;
 	}
     
     
