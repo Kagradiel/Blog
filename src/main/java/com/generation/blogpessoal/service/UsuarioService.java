@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.generation.blogpessoal.dto.UsuarioLoginDTO;
 import com.generation.blogpessoal.model.Usuario;
 import com.generation.blogpessoal.model.UsuarioLogin;
 import com.generation.blogpessoal.repository.UsuarioRepository;
@@ -62,15 +63,21 @@ public class UsuarioService {
 		return Optional.empty();
 	}
 	
-	public Optional<UsuarioLogin> autenticarUsuario(Optional<UsuarioLogin> usuarioLogin){
-		var credenciais = new UsernamePasswordAuthenticationToken(usuarioLogin.get().getUsuario(), usuarioLogin.get().getSenha());
+	public Optional<UsuarioLogin> autenticarUsuario(Optional<UsuarioLoginDTO> usuarioLoginDTO){
+		
+		var credenciais = new UsernamePasswordAuthenticationToken(usuarioLoginDTO.get().getUsuario(), usuarioLoginDTO.get().getSenha());
+		
+		usuarioLoginDTO.get().setSenha("");
 		
 		Authentication authentication = authenticationManager.authenticate(credenciais);
 		
 		if(authentication.isAuthenticated()) {
-			Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLogin.get().getUsuario());
+			Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLoginDTO.get().getUsuario());
 		
+			Optional<UsuarioLogin> usuarioLogin = Optional.of(new UsuarioLogin());;
+			
 			if(usuario.isPresent()) {
+				
 				usuarioLogin.get().setId(usuario.get().getId());
 				usuarioLogin.get().setNome(usuario.get().getNome());
 				usuarioLogin.get().setFoto(usuario.get().getFoto());

@@ -25,6 +25,8 @@ import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.model.Tema;
 import com.generation.blogpessoal.repository.PostagemRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -37,23 +39,39 @@ public class PostagemController {
 	@Autowired
 	private PostagemRepository postagemRepository;
 	
+	
+	@Operation(
+		    summary = "Buscar todas as postagens", 
+		    description = "Este endpoint retorna uma lista de todas as postagens do blog em formato JSON.")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Postagem>> getAll(){
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
 	
+	
+	@Operation(
+		    summary = "Buscar postagem por ID", 
+		    description = "Este endpoint retorna os detalhes de uma postagem baseada no seu ID. Se a postagem for encontrada, retorna os dados da postagem em formato JSON. Caso contrário, retorna um erro 404 (não encontrado).")
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Postagem> getById(@PathVariable Long id){
+	public ResponseEntity<Postagem> getById(@Parameter(description = "ID da postagem", required = true) @PathVariable Long id){
 		return postagemRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
+	
+	@Operation(
+		    summary = "Buscar postagens por título", 
+		    description = "Este endpoint retorna uma lista de postagens cujos títulos contêm a palavra-chave fornecida. A busca é insensível a maiúsculas e minúsculas.")
 	@GetMapping(value = "/titulo/{titulo}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){
+	public ResponseEntity<List<Postagem>> getByTitulo(@Parameter(description = "Título da postagem", required = true) @PathVariable String titulo){
 		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	
+	
+	@Operation(
+		    summary = "Criar uma nova postagem", 
+		    description = "Este endpoint cria uma nova postagem no blog. Recebe os dados da postagem em formato JSON e retorna a postagem criada em formato JSON.")
 	@PostMapping(
 	        consumes = MediaType.APPLICATION_JSON_VALUE,
 	        produces = MediaType.APPLICATION_JSON_VALUE
@@ -73,6 +91,10 @@ public class PostagemController {
 				.body(postagemRepository.save(postagem));
 	}
 	
+	
+	@Operation(
+		    summary = "Atualizar uma postagem", 
+		    description = "Este endpoint atualiza os dados de uma postagem existente. Recebe os dados atualizados da postagem em formato JSON e retorna a postagem atualizada em formato JSON.")
 	@PutMapping(
 	        consumes = MediaType.APPLICATION_JSON_VALUE,
 	        produces = MediaType.APPLICATION_JSON_VALUE
@@ -96,9 +118,13 @@ public class PostagemController {
 	            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
+	
+	@Operation(
+		    summary = "Deletar uma postagem", 
+		    description = "Este endpoint remove uma postagem do blog pelo seu ID. Se a postagem for encontrada, ela será deletada. Caso contrário, retorna um erro 404 (não encontrado).")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
+	public void delete(@Parameter(description = "ID da postagem", required = true) @PathVariable Long id) {
 		Optional<Postagem> postagem = postagemRepository.findById(id);
 		
 		if(postagem.isEmpty()) 
