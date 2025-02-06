@@ -50,7 +50,7 @@ public class Usuario {
 	@Schema(description = "Senha do usuario", example = "MinhaSenhaSecreta")
 	private String senha;
 	
-	@Size(max=500, message = "O atributo foto não pode ser maior que 5000 caracteres")
+	@Size(max=5000, message = "O atributo foto não pode ser maior que 5000 caracteres")
 	@Schema(description = "Foto do usuario", example = "https://i.imgur.com/Tk9f10k.png")
 	private String foto;
 	
